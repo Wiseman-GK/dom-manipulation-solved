@@ -38,3 +38,59 @@
  */
 
 // Your code goes here...
+const container = document.querySelector('.cardsContainer');
+const callbackFn = (e) => {
+  const item = e.target;
+  const check = localStorage.getItem('favorites').split('');
+  if (Array.from(item.classList).includes('card')) {
+    if (check.includes(item.id)) {
+      removeFav(item.id);
+    } else {
+      addFav(item.id);
+    }
+  }
+  colorId()
+};
+if(container){
+  container.addEventListener('click', callbackFn);
+};
+const addFav = (input) => {
+  let temp = localStorage.getItem('favorites');
+  temp += input;
+  localStorage.setItem('favorites', temp)
+}
+const removeFav = (input) => {
+  let temp = localStorage.getItem('favorites').split('');
+  temp.splice(temp.indexOf(input), 1);
+  const update = temp.join(',').replace(/,/g,'');
+  localStorage.setItem('favorites', update);
+}
+function colorId (){
+  const div = document.getElementsByClassName('cardsContainer');
+  let compare;
+  for(const elem of div){
+    compare = elem.querySelectorAll('*');
+  }
+  const ids = [];
+  compare.forEach(element => {ids.push(element.id);});
+  const check = localStorage.getItem('favorites').split('');
+  const favs = ids.filter(element => check.includes(element));
+  const notFavs = ids.filter(element => !check.includes(element));
+  change(favs, notFavs);
+}
+const change = (f, n) => {
+  console.log(f, n);
+  if(f.length > 0){
+    for (let g = 0; g < f.length; g++){
+      const div = document.getElementById(f[g]);
+      div.style.backgroundColor = 'red';
+    }
+  }
+  if(n.length > 0){
+    for (let g = 0; g < n.length; g++){
+      const div = document.getElementById(n[g]);
+      div.style.backgroundColor = 'white';
+    }
+  }
+}
+colorId();
