@@ -38,7 +38,9 @@
  */
 
 // Your code goes here...
-localStorage.setItem('favorites', 0)
+if(localStorage.getItem('favorites') == null){
+  localStorage.setItem('favorites', 0)
+}
 const container = document.querySelector('.cardsContainer');
 const callbackFn = (e) => {
   const item = e.target;
